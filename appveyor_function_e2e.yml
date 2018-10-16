@@ -16,11 +16,11 @@ install:
 
 build_script:
   - ps: >
-      $pid = .\e2etest\setup.ps1  
+      $hostpid = .\e2etest\setup.ps1  
       
 test_script:
   - ps: >
       .\e2etest\verify.ps1 
 
 on_finish:
-  - ps: .\e2etest\cleanup.ps1 $pid
+  - ps: .\e2etest\cleanup.ps1 $hostpid
