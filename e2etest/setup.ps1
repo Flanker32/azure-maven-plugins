@@ -12,12 +12,12 @@ Write-HOST "Path:$Env:Path"
 # Expand-Archive "$base\Azure.Functions.Cli.zip" -DestinationPath "$base\Azure.Functions.Cli"
 
 # Clone and install function maven plguin and archetype
-$dic = ls
-Write-Host $dic
-mvn -f "$base\pom.xml" clean install
+$test = mvn -v
+Write-Host $test
+./mvnw -f ".\pom.xml" clean install
 Remove-Item -Recurse -Force "azure-maven-archetypes" -ErrorAction Ignore
 git clone https://github.com/Microsoft/azure-maven-archetypes.git -b develop
-mvn -f  ".\azure-maven-archetypes\azure-functions-archetype\pom.xml" clean install
+./mvnw -f  ".\azure-maven-archetypes\azure-functions-archetype\pom.xml" clean install
 $archetypePom =  Get-Content ".\azure-maven-archetypes\azure-functions-archetype\pom.xml" -Raw
 $archetypePom -match "<version>(.*)</version>"
 $atchetypeVersion = $matches[1]
