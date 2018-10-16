@@ -14,7 +14,7 @@ Write-HOST "Path:$Env:Path"
 # Clone and install function maven plguin and archetype
 $dic = ls
 Write-Host $dic
-mvn -f ".\pom.xml" clean install
+mvn -f "$base\pom.xml" clean install
 Remove-Item -Recurse -Force "azure-maven-archetypes" -ErrorAction Ignore
 git clone https://github.com/Microsoft/azure-maven-archetypes.git -b develop
 mvn -f  ".\azure-maven-archetypes\azure-functions-archetype\pom.xml" clean install
