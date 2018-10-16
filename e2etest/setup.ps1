@@ -1,5 +1,5 @@
 $base = pwd;
-
+Write-Host $base
 # # Download Functions Core Tools
 # Remove-Item -Force "$base\Azure.Functions.Cli.zip" -ErrorAction Ignore
 # Remove-Item -Recurse -Force "$base\Azure.Functions.Cli" -ErrorAction Ignore
@@ -11,7 +11,8 @@ $base = pwd;
 # Expand-Archive "$base\Azure.Functions.Cli.zip" -DestinationPath "$base\Azure.Functions.Cli"
 
 # Clone and install function maven plguin and archetype
-ls
+$dic = ls
+Write-Host $dic
 mvn clean install
 Remove-Item -Recurse -Force "azure-maven-archetypes" -ErrorAction Ignore
 git clone https://github.com/Microsoft/azure-maven-archetypes.git -b develop
