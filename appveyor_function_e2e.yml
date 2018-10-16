@@ -11,13 +11,13 @@ install:
   # - cmd: copy "C:\Program Files (x86)\Apache\Maven\bin\mvn.cmd" "C:\Program Files (x86)\Apache\Maven\bin\mvn.bat"
 
 build_script:
-  - ps: >-
+  - ps: |
       $hostpid = .\e2etest\setup.ps1  
       
 test_script:
-  - ps: >-
+  - ps: |
       .\e2etest\verify.ps1 
 
 on_finish:
-  - ps: >- 
+  - ps: | 
       .\e2etest\cleanup.ps1 $hostpid
