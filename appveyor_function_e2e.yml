@@ -9,40 +9,15 @@ install:
   # - cmd: npm i -g azure-functions-core-tools@core --unsafe-perm true
   # - cmd: python -m pip install azure-cli
   # - cmd: copy "C:\Program Files (x86)\Apache\Maven\bin\mvn.cmd" "C:\Program Files (x86)\Apache\Maven\bin\mvn.bat"
-      
+
 build_script:
-  - ps: |
-      $base = pwd;
-      Write-Host $base
-      Write-HOST "Path:$Env:Path"
-      # # Download Functions Core Tools
-      # Remove-Item -Force "$base\Azure.Functions.Cli.zip" -ErrorAction Ignore
-      # Remove-Item -Recurse -Force "$base\Azure.Functions.Cli" -ErrorAction Ignore
-      # Write-Host "Downloading Functions Host...."
-      # $url = "https://functionsclibuilds.blob.core.windows.net/builds/2/latest/Azure.Functions.Cli.win-x64.zip"
-      # $output = "$base\Azure.Functions.Cli.zip"
-      # $wc = New-Object System.Net.WebClient
-      # $wc.DownloadFile($url, $output)
-      # Expand-Archive "$base\Azure.Functions.Cli.zip" -DestinationPath "$base\Azure.Functions.Cli"
-
-      # Clone and install function maven plguin and archetype
-      $test = mvn -v
-      Write-Host $test
-      ./mvnw -f ".\pom.xml" clean install
-      Remove-Item -Recurse -Force "azure-maven-archetypes" -ErrorAction Ignore
-      git clone https://github.com/Microsoft/azure-maven-archetypes.git -b develop
-      ./mvnw -f  ".\azure-maven-archetypes\azure-functions-archetype\pom.xml" clean install
-      $archetypePom =  Get-Content ".\azure-maven-archetypes\azure-functions-archetype\pom.xml" -Raw
-      $archetypePom -match "<version>(.*)</version>"
-      $atchetypeVersion = $matches[1]
-
-      # Generate function project through archetype
-      Remove-Item -Recurse -Force ".\e2etestproject" -ErrorAction Ignore
-      mkdir e2etestproject
-      cd e2etestproject
-      mvn archetype:generate -DarchetypeCatalog="local" -DarchetypeGroupId="com.microsoft.azure" -DarchetypeArtifactId="azure-functions-archetype" -DarchetypeVersion="$atchetypeVersion" -DgroupId="com.microsoft" -DartifactId="e2etestproject" -Dversion="1.0-SNAPSHOT" -Dpackage="com.microsoft" -DappRegion="westus" -DresourceGroup="e2etest-java-functions-group" -DappName="e2etest-java-functions"  -B
-      mvn -f ".\e2etestproject\pom.xml" clean package
-      cd .. 
+  - ps: >-
+      $hostpid = .\e2etest\setup.ps1  
+      
+test_script:
+  - ps: >-
+      .\e2etest\verify.ps1 
 
 on_finish:
-  - ps: .\e2etest\cleanup.ps1 $hostpid
+  - ps: >- 
+      .\e2etest\cleanup.ps1 $hostpid
