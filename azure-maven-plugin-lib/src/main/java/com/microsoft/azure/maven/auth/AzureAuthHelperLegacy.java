@@ -45,6 +45,7 @@ public class AzureAuthHelperLegacy {
     public static final String CLIENT_ID = "client";
     public static final String TENANT_ID = "tenant";
     public static final String KEY = "key";
+    // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Key for cert, not the value")]
     public static final String CERTIFICATE = "certificate";
     // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Key for password, not the value")]
     public static final String CERTIFICATE_PASSWORD = "certificatePassword";
